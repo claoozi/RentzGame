@@ -24,7 +24,7 @@
         android:layout_weight="2"
 
         android:inputType="textPersonName"
-        android:hint="Name"
+        android:hint="Enter Name"
         android:textSize="14sp" />
 
 
