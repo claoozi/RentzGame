@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="claudia.rent.SetupGameActivity"
+    android:weightSum="6">
+
+    <GridLayout
+        android:id="@+id/grid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:columnCount="2"
+
+        android:layout_gravity="fill_horizontal"
+        android:layout_weight="1">
+
+        <ToggleButton
+            android:id="@+id/gameLengthButton"
+            android:layout_width="172dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="0"
+            android:textOff="Scurt"
+            android:textOn="Lung" />
+
+        <ToggleButton
+            android:id="@+id/playersNrButton"
+            android:layout_width="172dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:textOff="4"
+            android:textOn="6"
+            android:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="143dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:text="Tip joc"
+            android:layout_gravity="fill_horizontal" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="141dp"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:text="Numar jucatori"
+            android:layout_gravity="fill_horizontal" />
+
+    </GridLayout>
+
+    <ListView
+        android:id="@+id/listViewPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="fill_horizontal"
+        android:layout_weight="4.5"/>
+
+    <Button
+        android:id="@+id/nextButton"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimary"
+        android:onClick="nextButtonAction"
+        android:text="Next"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="24sp"
+
+        android:layout_gravity="fill_horizontal"
+        android:layout_weight="0.5"/>
+</LinearLayout>
