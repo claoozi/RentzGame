@@ -3,8 +3,11 @@ package models;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.datatype.Duration;
+
+import static android.R.attr.duration;
 
 /**
  * Created by ei047234 on 4/12/17.
@@ -24,6 +27,8 @@ public class GameSingleton {
     private Date endedDate;
     private ArrayList<Player> players;
     private boolean gameHasStarted;
+
+    private int currentPlayerPosition;
 
     private GameSingleton () { }
 
@@ -49,29 +54,25 @@ public class GameSingleton {
     }
 
     public String durationString() {
-        Date nowDate = new Date();
-        Calendar calendar1 = Calendar.getInstance();
-        Calendar calendar2 = Calendar.getInstance();
-        calendar1.setTime(nowDate);
-        calendar2.setTime(startedDate);
-        long milsecs1= calendar1.getTimeInMillis();
-        long milsecs2 = calendar2.getTimeInMillis();
-        long s = milsecs2 - milsecs1;
-        long days = s / (24 * 60 * 60);
-        long rest = s - (days * 24 * 60 * 60);
-        long hrs = rest / (60 * 60);
-        long rest1 = rest - (hrs * 60 * 60);
-        long min = rest1 / 60;
-        long sec = s % 60;
+        long duration  = (new Date()).getTime() - startedDate.getTime();
+
+        long diffInHours = TimeUnit.MILLISECONDS.toHours(duration) % 24;
+        long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+        diffInMinutes = diffInMinutes % (60 * (diffInHours > 0 ? diffInHours : 1));
+        long diffInSeconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+        diffInSeconds = diffInSeconds % (60 * (diffInMinutes > 0 ? diffInMinutes : 1));
 
         String dates = "";
-        if (days > 0) dates = days + " Days ";
+        dates += fill((int) diffInHours) + ":";
+        dates += fill((int) diffInMinutes) + ":";
+        dates += fill((int) diffInSeconds);
 
-        dates += fill((int) hrs) + "h ";
-        dates += fill((int) min) + "m ";
-        dates += fill((int) sec) + "s ";
-
+        //test`
         return dates;
+    }
+
+    public void editPlayer(int position, String name){
+        ((Player)this.players.get(position)).setName(name);
     }
 
     public String fill(int value)
@@ -83,6 +84,25 @@ public class GameSingleton {
         return ret;
     }
 
+    public Player getCurrentPlayer(){
+        return players.get(currentPlayerPosition);
+    }
+
+    public void updateCurrentPlayerPosition(){
+        //set the next player the current player
+        currentPlayerPosition = currentPlayerPosition == players.size() - 1 ? 0 : currentPlayerPosition + 1;
+    }
+
+    public boolean validPlayersNames(){
+        for(int i = 0; i<players.size(); i++){
+            Player player = players.get(i);
+            if(player.getName().isEmpty()){
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     public GameLength getGameLength() {
         return gameLength;

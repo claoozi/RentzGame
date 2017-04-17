@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:weightSum="3">
 
-
     <TextView
         android:id="@+id/textViewPlayer"
         android:layout_width="0dp"
@@ -17,16 +16,14 @@
         android:layout_weight="1"/>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editPlayerText"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="fill_vertical"
         android:layout_weight="2"
 
+        android:hint="Introduceti un nume"
         android:inputType="textPersonName"
-        android:hint="Enter Name"
         android:textSize="14sp" />
-
-
 
 </LinearLayout>

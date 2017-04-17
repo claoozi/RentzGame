@@ -6,6 +6,7 @@ package models;
 
 public enum PlayersSize {
     Small(4),
+    Medium(5),
     Big(6);
 
     private final int value;

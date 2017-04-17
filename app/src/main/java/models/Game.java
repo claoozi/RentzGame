@@ -12,6 +12,13 @@ public class Game {
     public Game(GameType gameType) {
         this.gameType = gameType;
         played = false;
+
+        if(gameType == GameType.Queens){
+            played = true;
+
+
+            ///
+        }
     }
 
     public GameType getGameType() {

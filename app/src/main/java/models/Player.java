@@ -9,12 +9,14 @@ import java.util.Collection;
 
 
 public class Player {
+
+    private int position;
     private String name;
     private long score;
     private ArrayList<Game> games;
 
-    public Player(String name) {
-        this.name = name;
+    public Player(int position) {
+        this.position = position;
 
         games = new ArrayList<Game>();
         games.add(new Game(GameType.RedKing));
@@ -25,14 +27,6 @@ public class Player {
         games.add(new Game(GameType.TotalPlus));
         games.add(new Game(GameType.TotalMinus));
         games.add(new Game(GameType.Rent));
-    }
-
-    public long getScore() {
-        return score;
-    }
-
-    public void setScore(long score) {
-        this.score = score;
     }
 
     public ArrayList<Game> getGames(){
@@ -64,9 +58,29 @@ public class Player {
 
         return (ArrayList<Game>) result;
     }
+    public void addToScore(long subscrore){
+        score += subscrore;
+        GameSingleton.getInstance().updateCurrentPlayerPosition();
+    }
 
     public boolean areGamesUnplayed(){
         return !gamesNotPlayed().isEmpty();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPositionString(){
+        return "Jucatorul " + String.valueOf(position + 1) + ":";
+    }
+
+    public long getScore() {
+        return score;
     }
 }
 
