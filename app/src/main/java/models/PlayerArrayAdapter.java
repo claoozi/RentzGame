@@ -33,11 +33,9 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
         ViewHolder holder;
-
-        final Player player = data.get(position);
 
         if(row == null)
         {
@@ -65,7 +63,9 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    player.setName(s.toString());
+                    String changedName = s.toString();
+                    Player p = data.get(position);
+                    p.setName(changedName);
                 }
             });
 
@@ -76,8 +76,9 @@ public class PlayerArrayAdapter extends ArrayAdapter<Player> {
             holder = (ViewHolder)row.getTag();
         }
 
-        holder.textView.setText(player.getPositionString());
-        holder.editText.setText(player.getName());
+        Player p = data.get(position);
+        holder.textView.setText(p.getPositionString());
+        holder.editText.setText(p.getName());
         return row;
     }
 

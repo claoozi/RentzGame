@@ -31,6 +31,8 @@ import models.PlayersSize;
 
 public class SetupGameActivity extends AppCompatActivity {
 
+    private PlayerArrayAdapter playerArrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,19 +40,6 @@ public class SetupGameActivity extends AppCompatActivity {
 
         this.setGameLength();
         this.setPlayersSize();
-
-        final GameSingleton gameSingleton = GameSingleton.getInstance();
-        ArrayList<Player> players = new ArrayList<>();
-        for(int i = 0; i< gameSingleton.getPlayersSize().getValue(); i++){
-            players.add(new Player(i));
-        }
-        gameSingleton.setPlayers(players);
-
-        final PlayerArrayAdapter adapter = new PlayerArrayAdapter(this,
-                R.layout.setup_players_layout, gameSingleton.getPlayers());
-
-        ListView listView = (ListView) findViewById(R.id.listViewPlayers);
-        listView.setAdapter(adapter);
 
         RadioGroup gameLengthRadioGroup = (RadioGroup) findViewById(R.id.gameRadioGroup);
         gameLengthRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -109,15 +98,35 @@ public class SetupGameActivity extends AppCompatActivity {
         GameSingleton gameSingleton = GameSingleton.getInstance();
         gameSingleton.setPlayersSize(playersSize);
 
-        ArrayList<String> playerLabels = new ArrayList<String>();
-        for (int i = 0; i< playersSize.getValue(); i++){
-            playerLabels.add("Jucatorul " + String.valueOf(i + 1) + ":");
+        ArrayList<Player> players = gameSingleton.getPlayers();
+        if(players == null){
+            players = new ArrayList<>();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.setup_players_layout, R.id.textViewPlayer, playerLabels);
+        if(players.size() != playersSize.getValue()) {
+            if (players.size() < playersSize.getValue()) {
+                for (int i = players.size(); i < playersSize.getValue(); i++) {
+                    players.add(new Player(i));
+                }
+            } else {
+                for (int i = playersSize.getValue(); i < players.size(); i++) {
+                    players.remove(i);
+                    i--;
+                }
+            }
 
-        ListView listView = (ListView) findViewById(R.id.listViewPlayers);
-        listView.setAdapter(adapter);
+            GameSingleton.getInstance().setPlayers(players);
+
+            if (playerArrayAdapter != null) {
+                playerArrayAdapter.notifyDataSetChanged();
+            }
+            else{
+                playerArrayAdapter = new PlayerArrayAdapter(this,
+                        R.layout.setup_players_layout, gameSingleton.getPlayers());
+
+                ListView listView = (ListView) findViewById(R.id.listViewPlayers);
+                listView.setAdapter(playerArrayAdapter);
+            }
+        }
     }
 }
