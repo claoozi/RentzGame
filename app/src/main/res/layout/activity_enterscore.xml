@@ -19,7 +19,7 @@
         android:textColor="@color/gray" />
 
     <TextView
-        android:id="@+id/textViewPlayer"
+        android:id="@+id/textViewGamePlayed"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="fill_horizontal"
@@ -27,17 +27,19 @@
 
         android:layout_weight="0.25"
         android:paddingLeft="10dp"
-        android:text="S-a jucat dame. Introduceti punctele."
+        android:text="S-a jucat dame. Introduce-ti punctele."
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         android:textColor="@color/gray"
         android:textSize="18sp" />
 
     <ListView
+        android:id="@+id/listViewPlayers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="fill_horizontal"
         android:layout_weight="5"
         android:paddingLeft="10dp" />
+
 
     <Button
         android:id="@+id/nextButton"

@@ -59,13 +59,8 @@ public class SetupGameActivity extends AppCompatActivity {
 
     public void nextButtonAction(View view) {
 
-        if(GameSingleton.getInstance().validPlayersNames()) {
-            ListView listView = (ListView) findViewById(R.id.listViewPlayers);
-            GameSingleton.getInstance().startGame();
-            Intent intent = new Intent(this, ChooseGameActivity.class);
-            startActivity(intent);
-        }
-        else{
+        boolean debug = false;
+        if(!debug && !GameSingleton.getInstance().validPlayersNames()) {
             // show message to add all players names
             AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
             dlgAlert.setMessage("Completati numele tuturor jucatorilor.");
@@ -78,6 +73,12 @@ public class SetupGameActivity extends AppCompatActivity {
                         }
                     });
             dlgAlert.create().show();
+        }
+        else{
+            ListView listView = (ListView) findViewById(R.id.listViewPlayers);
+            GameSingleton.getInstance().startGame();
+            Intent intent = new Intent(this, ChooseGameActivity.class);
+            startActivity(intent);
         }
     }
 

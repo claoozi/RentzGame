@@ -27,7 +27,6 @@ public class GameSingleton {
     private Date endedDate;
     private ArrayList<Player> players;
     private boolean gameHasStarted;
-
     private int currentPlayerPosition;
 
     private GameSingleton () { }
@@ -110,6 +109,12 @@ public class GameSingleton {
 
     public void setGameLength(GameLength gameLength) {
         this.gameLength = gameLength;
+
+        if(players != null) {
+            for (int i = 0; i < players.size(); i++) {
+                players.get(i).updateWithGameLength(gameLength);
+            }
+        }
     }
 
     public PlayersSize getPlayersSize() {
@@ -142,5 +147,23 @@ public class GameSingleton {
 
     public void setPlayers(ArrayList<Player> players) {
         this.players = players;
+    }
+
+    public boolean isGameFinished() {
+        boolean isGameFinished = true;
+
+        for(int i = 0; i<players.size(); i++){
+            boolean areUnplayedGames = players.get(i).areUnplayedGames();
+            if(areUnplayedGames){
+                isGameFinished = false;
+                break;
+            }
+        }
+
+        if(isGameFinished && endedDate == null){
+            endedDate = new Date();
+        }
+
+        return isGameFinished;
     }
 }

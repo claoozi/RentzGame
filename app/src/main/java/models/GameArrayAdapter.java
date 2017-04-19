@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import java.util.ArrayList;
 
@@ -32,12 +33,10 @@ public class GameArrayAdapter extends ArrayAdapter<Game> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         View row = convertView;
         ViewHolder holder = null;
-
-        final Game game = data.get(position);
 
         if (row == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
@@ -45,17 +44,45 @@ public class GameArrayAdapter extends ArrayAdapter<Game> {
 
             holder = new ViewHolder();
             holder.checkBox = (CheckBox) row.findViewById(R.id.checkBoxGame);
+            //TODO: set check box handler
+            holder.checkBox.setOnClickListener(new View.OnClickListener()
+                                                   {
+                                                       @Override
+                                                       public void onClick(View v) {
+                                                            boolean isChecked = ((CheckBox)v).isChecked();
+                                                           if ( isChecked ) {
+                                                               Player currentPlayer = GameSingleton.getInstance().getCurrentPlayer();
+                                                               Game currentGame = currentPlayer.getCurrentGame();
+                                                               if (currentGame != null) {
+                                                                   System.out.println(currentGame.getGameType().getValue());
+                                                                   currentGame.setCurrent(false);
+                                                                   currentGame.setPlayed(false);
+                                                               }
 
+                                                               System.out.println("game checked");
+
+                                                               Game game = data.get(position);
+                                                               game.setCurrent(isChecked);
+                                                               game.setPlayed(isChecked);
+
+                                                               notifyDataSetChanged();
+                                                           }
+                                                    }
+                                                }
+            );
             row.setTag(holder);
         } else {
             holder = (ViewHolder) row.getTag();
         }
 
-        holder.checkBox.setText(game.getGameType().toString());
+        Game game = data.get(position);
+
+        holder.checkBox.setText(game.getGameType().getValue());
         holder.checkBox.setChecked(game.isPlayed());
 
-        holder.checkBox.setEnabled(!game.isPlayed());
-
+        if (!game.isCurrent()){
+            holder.checkBox.setEnabled(!game.isPlayed());
+        }
         return row;
     }
 

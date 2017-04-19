@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,13 +28,15 @@ public class ChooseGameActivity extends AppCompatActivity {
         timerHandler.postDelayed(timerRunnable, 0);
 
         //set player name
-        TextView textView = (TextView)findViewById(R.id.textViewPlayer);
+        TextView textView = (TextView) findViewById(R.id.textViewPlayer);
         textView.setText(GameSingleton.getInstance().getCurrentPlayer().getName() + " alege urmatorul joc.");
 
+        // create adapter
         Player currentPlayer = GameSingleton.getInstance().getCurrentPlayer();
         GameArrayAdapter adapter = new GameArrayAdapter(this,
                 R.layout.choose_game_layout, currentPlayer.getGames());
 
+        //set adapter
         ListView listView = (ListView) findViewById(R.id.listViewGames);
         listView.setAdapter(adapter);
     }

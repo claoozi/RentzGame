@@ -8,17 +8,11 @@ public class Game {
 
     private GameType gameType;
     private boolean played;
+    private boolean isCurrent;
 
     public Game(GameType gameType) {
         this.gameType = gameType;
         played = false;
-
-        if(gameType == GameType.Queens){
-            played = true;
-
-
-            ///
-        }
     }
 
     public GameType getGameType() {
@@ -31,5 +25,13 @@ public class Game {
 
     public void setPlayed(boolean played) {
         this.played = played;
+    }
+
+    public boolean isCurrent() {
+        return isCurrent;
+    }
+
+    public void setCurrent(boolean current) {
+        isCurrent = current;
     }
 }

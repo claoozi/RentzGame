@@ -13,20 +13,12 @@ public class Player {
     private int position;
     private String name;
     private long score;
+    private long tempScore;
     private ArrayList<Game> games;
 
     public Player(int position) {
         this.position = position;
-
-        games = new ArrayList<Game>();
-        games.add(new Game(GameType.RedKing));
-        games.add(new Game(GameType.Queens));
-        games.add(new Game(GameType.Rombs));
-        games.add(new Game(GameType.WistPlus));
-        games.add(new Game(GameType.WistMinus));
-        games.add(new Game(GameType.TotalPlus));
-        games.add(new Game(GameType.TotalMinus));
-        games.add(new Game(GameType.Rent));
+        updateWithGameLength(GameLength.Short);
     }
 
     public ArrayList<Game> getGames(){
@@ -46,7 +38,7 @@ public class Player {
         return result;
     }
 
-    public ArrayList<Game> gamesNotPlayed(){
+    public ArrayList<Game> gamesUnplayed(){
 
         Predicate<Game> gamesNotPlayedPredicate = new Predicate<Game>() {
             public boolean apply(Game subGame) {
@@ -58,13 +50,15 @@ public class Player {
 
         return (ArrayList<Game>) result;
     }
-    public void addToScore(long subscrore){
-        score += subscrore;
+
+    public void updateScoreWithTempScore(){
+        score += tempScore;
+        tempScore = 0;
         GameSingleton.getInstance().updateCurrentPlayerPosition();
     }
 
-    public boolean areGamesUnplayed(){
-        return !gamesNotPlayed().isEmpty();
+    public boolean areUnplayedGames(){
+        return !gamesUnplayed().isEmpty();
     }
 
     public String getName() {
@@ -81,6 +75,54 @@ public class Player {
 
     public long getScore() {
         return score;
+    }
+
+    public Game getCurrentGame(){
+        Predicate<Game> currentGamePredicate = new Predicate<Game>() {
+            public boolean apply(Game subGame) {
+                return subGame.isCurrent() == true ;
+            }
+        };
+
+        Collection<Game> result = filter(games, currentGamePredicate);
+
+        if(result.size() == 0){
+            return null;
+        }
+        else{
+            return ((ArrayList<Game>) result).get(0);
+        }
+    }
+
+    public long getTempScore() {
+        return tempScore;
+    }
+
+    public void setTempScore(long tempScore) {
+        this.tempScore = tempScore;
+    }
+
+    public void updateWithGameLength(GameLength gameLength){
+        if(gameLength == GameLength.Short){
+            games = new ArrayList<Game>();
+            games.add(new Game(GameType.RedKing));
+            games.add(new Game(GameType.Queens));
+            games.add(new Game(GameType.Rombs));
+            games.add(new Game(GameType.WistPlus));
+            games.add(new Game(GameType.TotalMinus));
+            games.add(new Game(GameType.Rent));
+        }
+        else{
+            games = new ArrayList<Game>();
+            games.add(new Game(GameType.RedKing));
+            games.add(new Game(GameType.Queens));
+            games.add(new Game(GameType.Rombs));
+            games.add(new Game(GameType.WistPlus));
+            games.add(new Game(GameType.WistMinus));
+            games.add(new Game(GameType.TotalPlus));
+            games.add(new Game(GameType.TotalMinus));
+            games.add(new Game(GameType.Rent));
+        }
     }
 }
 
