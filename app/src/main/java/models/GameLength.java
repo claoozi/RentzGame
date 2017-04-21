@@ -5,8 +5,8 @@ package models;
  */
 
 public enum GameLength {
-    Short(4),
-    Long(6);
+    Short(6),
+    Long(8);
 
     private final int value;
 

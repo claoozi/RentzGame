@@ -5,4 +5,8 @@
     android:layout_height="match_parent"
     tools:context="claudia.rent.RulesActivity">>
 
+    <WebView
+        android:id="@+id/rulesWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>
